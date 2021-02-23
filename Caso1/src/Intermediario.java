@@ -5,7 +5,6 @@ public class Intermediario extends Thread
 	private boolean prodint;
 	private static Buzon buzonIntermedio;
 	private static int MAX_PRODUCTOS;
-	//private Buzon buzonProductores;
 	private Buzon buzonPOC;
 	
 	public Intermediario(boolean pProdint, Buzon pBuzonIntermedio, Buzon pBuzonPOC, int maxProductos)
@@ -38,7 +37,7 @@ public class Intermediario extends Thread
 			contador++;
 			System.out.println("Intermedio "+ prodint + contador);
 		}
-		System.out.println("Acabé intermediario "+prodint);
+		System.out.println("Acabï¿½ intermediario "+prodint);
 		
 	}
 }

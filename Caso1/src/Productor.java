@@ -1,5 +1,6 @@
 public class Productor extends Thread
 {
+	private int id;
 	
 	private String tipoProduce;
 	
@@ -7,8 +8,9 @@ public class Productor extends Thread
 	
 	private int maxProd;
 	
-	public Productor(String pTipoProduce, Buzon pBuzonAsignado, int pMaxProd)
+	public Productor(int id, String pTipoProduce, Buzon pBuzonAsignado, int pMaxProd)
 	{
+		this.id=id;
 		this.tipoProduce = pTipoProduce;
 		Productor.buzonAsignado = pBuzonAsignado;
 		this.maxProd = pMaxProd;
@@ -18,8 +20,8 @@ public class Productor extends Thread
 	{
 		for(int i=0; i<maxProd; i++)
 		{
-			buzonAsignado.almacenarProductoPROD(new Producto(""+i, tipoProduce));
+			buzonAsignado.almacenarProductoPROD(new Producto(id+" - "+i, tipoProduce));
 		}
-		System.out.println("Acabé productor");
+		System.out.println("Acabï¿½ productor");
 	}
 }

@@ -24,27 +24,27 @@ public class Main {
 			Buzon buzprod = new Buzon("PROD",buzonesProd);
 			Buzon buzcons = new Buzon("CONS", buzonesCons);
 
-			Productor[] productores = new Productor[2];
+			Productor[] productores = new Productor[numProdCons];
 			for(int i=0; i<productores.length; i++)
 			{
 				if(i%2==0)
 				{
-					productores[i] = new Productor("A",buzprod,MAX_PRODUCTOS);
+					productores[i] = new Productor(i,"A",buzprod,MAX_PRODUCTOS);
 				}
 				else {
-					productores[i] = new Productor("B",buzprod,MAX_PRODUCTOS);	
+					productores[i] = new Productor(i,"B",buzprod,MAX_PRODUCTOS);	
 				}
 			}
 
-			Consumidor[] consumidores = new Consumidor[2];
+			Consumidor[] consumidores = new Consumidor[numProdCons];
 			for(int i=0; i<consumidores.length; i++)
 			{
 				if(i%2==0)
 				{
-					consumidores[i] = new Consumidor("A",buzprod,MAX_PRODUCTOS);
+					consumidores[i] = new Consumidor("A",buzcons,MAX_PRODUCTOS);
 				}
 				else {
-					consumidores[i] = new Consumidor("B",buzprod,MAX_PRODUCTOS);	
+					consumidores[i] = new Consumidor("B",buzcons,MAX_PRODUCTOS);	
 				}
 			}
 
@@ -63,7 +63,8 @@ public class Main {
 			{
 				consumidores[i].start();
 			}
-
+			
+			System.out.println("end");
 		}
 		catch(Exception e)
 		{

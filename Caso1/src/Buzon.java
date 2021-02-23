@@ -33,10 +33,10 @@ public class Buzon {
 		}
 		synchronized(this)
 		{
-			System.out.println("Se agregó a buzon intermedio");
+			System.out.println("Se agregï¿½ a buzon intermedio");
 			almacenados.add(pProducto);
 			notify();
-			//falta sacar del buzón PROD y notificar a los productores (NotifyAll)
+			//falta sacar del buzï¿½n PROD y notificar a los productores (NotifyAll)
 		}
 	}
 
@@ -56,10 +56,10 @@ public class Buzon {
 		}
 		synchronized(this)
 		{
-			System.out.println("Se agregó a buzon productores " + pProducto.getIdProducto() + pProducto.darTipo());
+			System.out.println("Se agregï¿½ a buzon productores " + pProducto.getIdProducto() + pProducto.darTipo());
 			almacenados.add(pProducto);
 			notify(); //No se necesita notify() con yield
-			//falta sacar del buzón PROD y notificar a los productores (NotifyAll)
+			//falta sacar del buzï¿½n PROD y notificar a los productores (NotifyAll)
 		}
 	}
 
@@ -71,7 +71,7 @@ public class Buzon {
 			{
 				while(almacenados.size()==0)
 				{
-					System.out.println("Buzon vacío. Pasa a espera");
+					System.out.println("Buzon vacï¿½o. Pasa a espera");
 					wait();
 				}
 			}
@@ -96,7 +96,7 @@ public class Buzon {
 		{
 			while(almacenados.size()==0 || !hayTipo(tipoProducto))
 			{
-				System.out.println("Buzon consumidores vacío o no hay tipo correspondiente. Pasa a espera");
+				System.out.println("Buzon consumidores vacï¿½o o no hay tipo correspondiente. Pasa a espera");
 				Thread.yield();
 			}
 		}
@@ -106,7 +106,7 @@ public class Buzon {
 		}
 		synchronized(this)
 		{
-			Producto p = sacarProductoTipo(tipo);
+			Producto p = sacarProductoTipo(tipoProducto);
 			notify();
 			return p;
 			//Falta meter al buzon CONS y notificar a los consumidores (NotifyAll)
@@ -126,10 +126,13 @@ public class Buzon {
 	}
 
 	public Producto sacarProductoTipo (String tipo) {
+		System.out.println("Intentando consumir producto");
 		for(int i=0;i<almacenados.size();i++)
 		{
-			if(almacenados.get(i).darTipo()==tipo)
-				return almacenados.remove(i);
+			if(almacenados.get(i).darTipo()==tipo) {
+				System.out.println("Consumiendo producto " + almacenados.get(i).getIdProducto() + almacenados.get(i).darTipo());
+				return almacenados.remove(i);				
+			}
 		}
 		return null;
 	}
