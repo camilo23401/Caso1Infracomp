@@ -22,6 +22,6 @@ public class Productor extends Thread
 		{
 			buzonAsignado.almacenarProductoPROD(new Producto(id+" - "+i, tipoProduce));
 		}
-		System.out.println("Acab� productor");
+		System.out.println("Acabo productor");
 	}
 }

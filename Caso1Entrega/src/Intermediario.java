@@ -17,7 +17,7 @@ public class Intermediario extends Thread
 	
 	public void run()
 	{
-		int contador = 0; //Revisar
+		int contador = 0;
 		System.out.println("Inicio intermediario " + prodint);
 		while (contador < MAX_PRODUCTOS) {	
 			Producto prod;
@@ -35,9 +35,9 @@ public class Intermediario extends Thread
 				System.out.println("Intermediario " + prodint + " mete producto " + prod.getIdProducto() + prod.darTipo());
 			}
 			contador++;
-			System.out.println("Intermedio "+ prodint + contador);
+			System.out.println("Intermedio "+ prodint +" "+ contador);
 		}
-		System.out.println("Acab� intermediario "+prodint);
+		System.out.println("Acabo intermediario "+prodint);
 		
 	}
 }

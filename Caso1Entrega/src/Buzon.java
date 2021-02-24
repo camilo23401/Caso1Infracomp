@@ -35,10 +35,9 @@ public class Buzon {
 		}
 		synchronized(this)
 		{
-			System.out.println("Se agreg� a buzon intermedio");
+			System.out.println("Se agrego a buzon intermedio");
 			almacenados.add(pProducto);
 			notify();
-			//falta sacar del buz�n PROD y notificar a los productores (NotifyAll)
 		}
 	}
 	
@@ -50,7 +49,7 @@ public class Buzon {
 			{
 				while(almacenados.size()==tamano)
 				{
-					System.out.println("Buzon intermedio lleno. Pasa a espera");
+					System.out.println("Buzon consumidores lleno. Pasa a espera");
 					wait();
 				}
 			}
@@ -61,9 +60,8 @@ public class Buzon {
 		}
 		synchronized(almacenados)
 		{
-			System.out.println("Se agreg� a buzon intermedio");
+			System.out.println("Se agrego a buzon de consumidores");
 			almacenados.add(pProducto);
-			//falta sacar del buz�n PROD y notificar a los productores (NotifyAll)
 		}
 	}
 
@@ -83,10 +81,9 @@ public class Buzon {
 		}
 		synchronized(this)
 		{
-			System.out.println("Se agreg� a buzon productores " + pProducto.getIdProducto() + pProducto.darTipo());
+			System.out.println("Se agrego a buzon productores " + pProducto.getIdProducto() + pProducto.darTipo());
 			almacenados.add(pProducto);
-			notify(); //No se necesita notify() con yield
-			//falta sacar del buz�n PROD y notificar a los productores (NotifyAll)
+			notify();
 		}
 	}
 
@@ -98,7 +95,7 @@ public class Buzon {
 			{
 				while(almacenados.size()==0)
 				{
-					System.out.println("Buzon vac�o. Pasa a espera");
+					System.out.println("Buzon vacio. Pasa a espera");
 					wait();
 				}
 			}
@@ -112,7 +109,6 @@ public class Buzon {
 			Producto p = almacenados.remove(0);
 			notify();
 			return p;
-			//Falta meter al buzon CONS y notificar a los consumidores (NotifyAll)
 		}
 	}
 
@@ -120,14 +116,13 @@ public class Buzon {
 	{
 		while(almacenados.size()==0 || !hayTipo(tipoProducto))
 		{
-			System.out.println("Buzon consumidores vac�o o no hay tipo correspondiente. Pasa a espera");
+			System.out.println("Buzon consumidores vacio o no hay tipo correspondiente. Pasa a espera");
 			Thread.yield();
 		}
 		Producto p;
 		synchronized(almacenados)
 		{
 			p = sacarProductoTipo(tipoProducto);
-			//Falta meter al buzon CONS y notificar a los consumidores (NotifyAll)
 		}
 		synchronized(prod)
 		{
@@ -141,10 +136,16 @@ public class Buzon {
 
 	public boolean hayTipo(String pTipo)
 	{
-		for(int i=0;i<almacenados.size();i++)
+		if(!almacenados.isEmpty())
 		{
-			if(almacenados.get(i).darTipo()==pTipo)
-				return true;
+			for(int i=0;i<almacenados.size();i++)
+			{
+				if(almacenados.get(i)!=null)
+				{
+					if(almacenados.get(i).darTipo()==pTipo)
+						return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -154,7 +155,7 @@ public class Buzon {
 		for(int i=0;i<almacenados.size();i++)
 		{
 			if(almacenados.get(i).darTipo()==tipo) {
-				System.out.println("Consumiendo producto " + almacenados.get(i).getIdProducto() + almacenados.get(i).darTipo());
+				System.out.println("Consumiendo producto " + almacenados.get(i).getIdProducto() +" "+  almacenados.get(i).darTipo());
 				return almacenados.remove(i);				
 			}
 		}
