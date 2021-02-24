@@ -5,6 +5,7 @@ public class Buzon {
 	private int tamano;
 	private String tipo;
 	public ArrayList<Producto> almacenados;
+	private Object prod;
 
 
 	public Buzon(String pTipo, int pTamano)
@@ -12,6 +13,7 @@ public class Buzon {
 		this.tipo = pTipo;
 		this.tamano = pTamano;
 		this.almacenados = new ArrayList<Producto>();
+		this.prod = new Object();
 	}
 
 	public void almacenarProductoINT(Producto pProducto)
@@ -36,6 +38,31 @@ public class Buzon {
 			System.out.println("Se agreg� a buzon intermedio");
 			almacenados.add(pProducto);
 			notify();
+			//falta sacar del buz�n PROD y notificar a los productores (NotifyAll)
+		}
+	}
+	
+	public void almacenarProductoCONS(Producto pProducto)
+	{
+		synchronized(prod)
+		{
+			try
+			{
+				while(almacenados.size()==tamano)
+				{
+					System.out.println("Buzon intermedio lleno. Pasa a espera");
+					wait();
+				}
+			}
+			catch(Exception e)
+			{
+
+			}
+		}
+		synchronized(almacenados)
+		{
+			System.out.println("Se agreg� a buzon intermedio");
+			almacenados.add(pProducto);
 			//falta sacar del buz�n PROD y notificar a los productores (NotifyAll)
 		}
 	}
@@ -91,26 +118,23 @@ public class Buzon {
 
 	public Producto sacarProductoCONS(String tipoProducto)
 	{
-
-		try
+		while(almacenados.size()==0 || !hayTipo(tipoProducto))
 		{
-			while(almacenados.size()==0 || !hayTipo(tipoProducto))
-			{
-				System.out.println("Buzon consumidores vac�o o no hay tipo correspondiente. Pasa a espera");
-				Thread.yield();
-			}
+			System.out.println("Buzon consumidores vac�o o no hay tipo correspondiente. Pasa a espera");
+			Thread.yield();
 		}
-		catch(Exception e)
+		Producto p;
+		synchronized(almacenados)
 		{
-
-		}
-		synchronized(this)
-		{
-			Producto p = sacarProductoTipo(tipoProducto);
-			notify();
-			return p;
+			p = sacarProductoTipo(tipoProducto);
 			//Falta meter al buzon CONS y notificar a los consumidores (NotifyAll)
 		}
+		synchronized(prod)
+		{
+			prod.notifyAll();	
+		}
+		return p;
+		
 	}
 
 

@@ -31,7 +31,7 @@ public class Intermediario extends Thread
 			else {
 				prod = buzonIntermedio.sacarProductoINT(); //sacar producto del buzon intermediario
 				System.out.println("Intermediario " + prodint + " saca producto " + prod.getIdProducto() + prod.darTipo());
-				buzonPOC.almacenarProductoINT(prod);//meter producto en buzon consumidores
+				buzonPOC.almacenarProductoCONS(prod);//meter producto en buzon consumidores
 				System.out.println("Intermediario " + prodint + " mete producto " + prod.getIdProducto() + prod.darTipo());
 			}
 			contador++;
